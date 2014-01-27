@@ -2,6 +2,8 @@ package com.example.portfolio;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,8 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 @SuppressLint("NewApi")
@@ -22,6 +31,17 @@ public class MainActivity extends ActionBarActivity {
 		//setContentView(R.layout.activity_main);
 
 		setContentView(R.layout.main_2x);
+
+		GridView gv = (GridView)findViewById(R.id.gridview);
+		gv.setAdapter(new GridAdapter(getApplicationContext()));
+		gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Log.e(getPackageName(), "POS: "+position);
+
+				startActivity(new Intent(getApplicationContext(), PortraitPortfolioItemsList.class));
+			}
+		});
+
 		/*
 		ActionBar actionBar = getSupportActionBar();
 
@@ -70,9 +90,44 @@ public class MainActivity extends ActionBarActivity {
 
 			Toast.makeText(getApplicationContext(), "To exit press back again!", Toast.LENGTH_SHORT).show();
 		}
-		else {
-			super.onBackPressed();
+		else super.onBackPressed();
+	}
+}
+
+class GridAdapter extends BaseAdapter {
+	private LayoutInflater li;
+	private Context context;
+
+	public GridAdapter(Context context) {
+		this.context = context;
+
+		this.li = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+	}
+
+	public int getCount() {
+		return 6;
+	}
+
+	public Object getItem(int position) {
+		return position;
+	}
+
+	public long getItemId(int id) {
+		return id;
+	}
+
+	public View getView(int arg0, View view, ViewGroup viewGroup) {
+		View v;
+
+		if(view == null) {
+			v = this.li.inflate(R.layout.portfolio_item, viewGroup, false);
+
+			ImageView im = (ImageView)v.findViewById(R.id.imageView1);
+			im.setImageResource(R.drawable.rihanna);
+
+			return v;
 		}
+		else return view;
 	}
 }
 
