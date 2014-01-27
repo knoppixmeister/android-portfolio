@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Portfolio</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_portrait_portfolio_items_list">PortraitPortfolioItemsList</string>
+   	<string name="picture_of_me">Picture of me!</string>
 </resources>
